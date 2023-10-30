@@ -1,0 +1,13 @@
+version: "3"
+services:
+  spring-boot-app:
+    build:
+      context: ../grand-atma-hotel-api
+    ports:
+      - "8081:8080"
+
+  react-frontend:
+    build:
+      context: ./
+    ports:
+      - "4000:3000"

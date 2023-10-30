@@ -9,6 +9,13 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "proxy": {
+    "*": {
+      "target": "http://localhost:8081",
+      "changeOrigin": true,
+      "secure": false
+    }
+  },
   "dependencies": {
     "@nextui-org/react": "^2.1.13",
     "axios": "^1.6.0",

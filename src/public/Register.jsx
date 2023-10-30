@@ -5,6 +5,7 @@ import { Button, Input } from "@nextui-org/react";
 import axiosInstance from "../contexts/axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -17,21 +18,30 @@ const Register = () => {
   const navigate = useNavigate();
 
   const onRegister = () => {
-    const role = ["customer"];
+    const config = {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+      },
+    };
 
-    axiosInstance
-      .post("/auth/signup", {
-        name: fullname,
-        username: username,
-        password,
-        email,
-        noIdentitas: no_identitas,
-        noTelp: no_telp,
-        alamat,
-        role: role,
-      })
+    axios
+      .post(
+        "/register",
+        {
+          nama: fullname,
+          username: username,
+          password: password,
+          email: email,
+          no_identitas: no_identitas,
+          no_telpon: no_telp,
+          alamat: alamat,
+        },
+        config
+      )
       .then((res) => {
         console.log(res);
+        alert(res.data.message);
         navigate("/login");
       })
       .catch((err) => {
