@@ -14,7 +14,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Tooltip,
   Modal,
   ModalContent,
   ModalHeader,

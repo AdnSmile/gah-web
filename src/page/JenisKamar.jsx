@@ -30,12 +30,10 @@ const JenisKamar = () => {
             <Button
               onPress={() => {
                 localStorage.removeItem("token");
-                localStorage.removeItem("role");
-                localStorage.removeItem("id_account");
               }}
               as={Link}
               color="primary"
-              to="#"
+              to="/login"
               variant="flat"
             >
               Logout
