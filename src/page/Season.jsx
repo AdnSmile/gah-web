@@ -49,7 +49,17 @@ const Season = () => {
         </NavbarContent>
         <NavbarContent justify="end">
           <NavbarItem>
-            <Button as={Link} color="primary" to="#" variant="flat">
+            <Button
+              onPress={() => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("role");
+                localStorage.removeItem("id_account");
+              }}
+              as={Link}
+              color="primary"
+              to="/login"
+              variant="flat"
+            >
               Logout
             </Button>
           </NavbarItem>

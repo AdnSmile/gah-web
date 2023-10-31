@@ -60,6 +60,8 @@ const Fasilitas = () => {
       .catch((err) => {
         console.log(err);
         alert(err.response.data.message);
+        alert(header);
+        localStorage.removeItem("token");
         navigate("/login");
       });
   };
@@ -213,7 +215,15 @@ const Fasilitas = () => {
           </NavbarContent>
           <NavbarContent justify="end">
             <NavbarItem>
-              <Button as={Link} color="primary" to="#" variant="flat">
+              <Button
+                onPress={() => {
+                  localStorage.removeItem("token");
+                }}
+                as={Link}
+                color="primary"
+                to="/login"
+                variant="flat"
+              >
                 Logout
               </Button>
             </NavbarItem>

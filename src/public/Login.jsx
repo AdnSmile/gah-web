@@ -33,8 +33,6 @@ const Login = () => {
         alert(res.data.message);
 
         localStorage.setItem("token", res.data.data.token);
-        localStorage.setItem("role", res.data.data.account.role);
-        localStorage.setItem("id_account", res.data.data.account.id_account);
 
         const role = res.data.data.account.role;
 
