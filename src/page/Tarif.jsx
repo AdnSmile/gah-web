@@ -25,7 +25,7 @@ import {
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
 
-const Season = () => {
+const Tarif = () => {
   return (
     <div>
       <Navbar position="static">
@@ -33,7 +33,7 @@ const Season = () => {
           <p className="font-bold text-inherit">Grand Atma Hotel</p>
         </NavbarBrand>
         <NavbarContent className="sm:flex gap-18" justify="center">
-          <NavbarItem isActive>
+          <NavbarItem>
             <NavLink color="foreground" to="/season">
               Season
             </NavLink>
@@ -43,7 +43,7 @@ const Season = () => {
               Fasilitas
             </NavLink>
           </NavbarItem>
-          <NavbarItem>
+          <NavbarItem isActive>
             <NavLink to="/tarif">Tarif</NavLink>
           </NavbarItem>
         </NavbarContent>
@@ -59,4 +59,4 @@ const Season = () => {
   );
 };
 
-export default Season;
+export default Tarif;

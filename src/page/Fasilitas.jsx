@@ -25,7 +25,18 @@ import {
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
 
-const Season = () => {
+const titleTable = [
+  { name: "Layanan", uid: "nama_layanan" },
+  { name: "Satuan", uid: "satuan" },
+  { name: "Tarif Layanan", uid: "tarif_layanan" },
+  { name: "Actions", uid: "actions" },
+];
+
+const header = {
+  Authorization: `Bearer ${localStorage.getItem("token")}`,
+};
+
+const Fasilitas = () => {
   return (
     <div>
       <Navbar position="static">
@@ -33,12 +44,12 @@ const Season = () => {
           <p className="font-bold text-inherit">Grand Atma Hotel</p>
         </NavbarBrand>
         <NavbarContent className="sm:flex gap-18" justify="center">
-          <NavbarItem isActive>
+          <NavbarItem>
             <NavLink color="foreground" to="/season">
               Season
             </NavLink>
           </NavbarItem>
-          <NavbarItem>
+          <NavbarItem isActive>
             <NavLink color="foreground" to="/fasilitas">
               Fasilitas
             </NavLink>
@@ -59,4 +70,4 @@ const Season = () => {
   );
 };
 
-export default Season;
+export default Fasilitas;

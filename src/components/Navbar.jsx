@@ -5,27 +5,10 @@ import {
   NavbarContent,
   NavbarItem,
   Button,
-  Select,
-  Input,
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Tooltip,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-  SelectItem,
 } from "@nextui-org/react";
 import { Link, NavLink } from "react-router-dom";
-import axios from "axios";
 
-const Season = () => {
+export default function Navbarr() {
   return (
     <div>
       <Navbar position="static">
@@ -33,18 +16,23 @@ const Season = () => {
           <p className="font-bold text-inherit">Grand Atma Hotel</p>
         </NavbarBrand>
         <NavbarContent className="sm:flex gap-18" justify="center">
-          <NavbarItem isActive>
-            <NavLink color="foreground" to="/season">
-              Season
+          <NavbarItem>
+            <NavLink
+              // className={({ isActive }) =>
+              //   `${
+              //     isActive ? "bg-primary" : "hover:bg-white hover:bg-opacity-10"
+              //   } flex items-center gap-2 rounded p-2`
+              // }
+              color="foreground"
+              to="#"
+            >
+              Kamar
             </NavLink>
           </NavbarItem>
           <NavbarItem>
-            <NavLink color="foreground" to="/fasilitas">
-              Fasilitas
+            <NavLink to="/jenis-kamar" aria-current="page">
+              Jenis Kamar
             </NavLink>
-          </NavbarItem>
-          <NavbarItem>
-            <NavLink to="/tarif">Tarif</NavLink>
           </NavbarItem>
         </NavbarContent>
         <NavbarContent justify="end">
@@ -57,6 +45,4 @@ const Season = () => {
       </Navbar>
     </div>
   );
-};
-
-export default Season;
+}

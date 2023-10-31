@@ -1,24 +1,29 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
-import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./public/Login.jsx";
 import Register from "./public/Register.jsx";
+import JenisKamar from "./page/JenisKamar";
+import Kamar from "./page/Kamar";
+import Fasilitas from "./page/Fasilitas";
+import Season from "./page/Season";
+import Tarif from "./page/Tarif";
 
 function App() {
   return (
-    <div>
-      <div>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/jenis-kamar" element={<JenisKamar />} />
+        <Route path="/kamar" element={<Kamar />} />
+        <Route path="/fasilitas" element={<Fasilitas />} />
+        <Route path="/season" element={<Season />} />
+        <Route path="/tarif" element={<Tarif />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

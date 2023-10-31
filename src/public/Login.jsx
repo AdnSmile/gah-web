@@ -1,9 +1,56 @@
 import { Link } from "react-router-dom";
 import LogoDark from "../images/logo/logo-dark.svg";
-import React from "react";
-import { Input } from "@nextui-org/react";
+import Logo from "../images/logo/logo.svg";
+import { Button, Input } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const onLogin = () => {
+    const config = {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+      },
+    };
+
+    axios
+      .post(
+        "/login",
+        {
+          username: username,
+          password: password,
+        },
+        config
+      )
+      .then((res) => {
+        console.log(res);
+        alert(res.data.message);
+
+        localStorage.setItem("token", res.data.data.token);
+        localStorage.setItem("role", res.data.data.account.role);
+        localStorage.setItem("id_account", res.data.data.account.id_account);
+
+        const role = res.data.data.account.role;
+
+        if (role == "admin") {
+          navigate("/kamar");
+        }
+
+        if (role == "sm") {
+          navigate("/season");
+        }
+      })
+      .catch((err) => {
+        alert(err.response.message);
+      });
+  };
+
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -14,8 +61,10 @@ const Login = () => {
 
           <div className="w-1/2 border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
-              <span className="mb-1.5 block font-medium">Start for free</span>
-              <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
+              <span className="mb-1.5 block text-center font-medium">
+                Start for free
+              </span>
+              <h2 className="mb-9 text-center text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Login In to Grand Atma Hotel
               </h2>
 
@@ -25,7 +74,11 @@ const Login = () => {
                     username
                   </label>
                   <div className="relative">
-                    <Input type="text" placeholder="Enter your username" />
+                    <Input
+                      onValueChange={setUsername}
+                      type="text"
+                      placeholder="Enter your username"
+                    />
                   </div>
                 </div>
 
@@ -34,16 +87,16 @@ const Login = () => {
                     Re-type Password
                   </label>
                   <div className="relative">
-                    <Input type="password" placeholder="Enter your password" />
+                    <Input
+                      onValueChange={setPassword}
+                      type="password"
+                      placeholder="Enter your password"
+                    />
                   </div>
                 </div>
 
-                <div className="mb-5">
-                  <input
-                    type="submit"
-                    value="Sign In"
-                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                  />
+                <div className="mb-5 text-center">
+                  <Button onClick={onLogin}>Login</Button>
                 </div>
 
                 <div className="mt-6 text-center">
