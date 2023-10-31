@@ -11,6 +11,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  console.log(localStorage.getItem("token"));
+
   const onLogin = () => {
     const config = {
       headers: {
@@ -34,6 +36,8 @@ const Login = () => {
 
         localStorage.setItem("token", res.data.data.token);
 
+        console.log(localStorage.getItem("token"));
+
         const role = res.data.data.account.role;
 
         if (role == "admin") {
@@ -42,6 +46,11 @@ const Login = () => {
 
         if (role == "sm") {
           navigate("/season");
+        }
+
+        if (role == "customer") {
+          // navigate("/season");
+          alert("Customer login");
         }
       })
       .catch((err) => {

@@ -25,6 +25,7 @@ import {
 } from "@nextui-org/react";
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const titleTable = [
   { name: "Jenis Kamar", uid: "jenis_kamar" },
@@ -46,10 +47,17 @@ const Kamar = () => {
   const [idKamar, setIdKamar] = React.useState("");
   const [search, setSearch] = React.useState([]);
   const [primaySearch, setPrimarySearch] = React.useState([]);
+  const navigate = useNavigate();
+
+  console.log(localStorage.getItem("token"));
 
   const getKamar = () => {
     axios
-      .get("/kamar", { headers: header })
+      .get("/kamar", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
       .then((res) => {
         console.log(res.data.data);
 
@@ -58,7 +66,10 @@ const Kamar = () => {
       })
       .catch((err) => {
         console.log(err);
-        alert(err.response.data.message);
+        const code = err.response.status;
+        console.log(code);
+        if (code == 403 || code == 401) navigate("/unauthorize");
+        // alert(err.response.data.message);
       });
   };
 

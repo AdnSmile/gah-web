@@ -33,10 +33,6 @@ const titleTable = [
   { name: "Actions", uid: "actions" },
 ];
 
-const header = {
-  Authorization: `Bearer ${localStorage.getItem("token")}`,
-};
-
 const Fasilitas = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [layanan, setLayanan] = React.useState([]);
@@ -47,6 +43,13 @@ const Fasilitas = () => {
   const [search, setSearch] = React.useState([]);
   const [primaySearch, setPrimarySearch] = React.useState([]);
   const navigate = useNavigate();
+
+  console.log(localStorage.getItem("token"));
+
+  const token = localStorage.getItem("token");
+  const header = {
+    Authorization: `Bearer ${token}`,
+  };
 
   const getFasilitas = () => {
     axios
@@ -59,10 +62,12 @@ const Fasilitas = () => {
       })
       .catch((err) => {
         console.log(err);
-        alert(err.response.data.message);
-        alert(header);
-        localStorage.removeItem("token");
-        navigate("/login");
+        // console.log(header.Authorization);
+        // localStorage.removeItem("token");
+        // navigate("/login");
+        const code = err.response.status;
+        console.log(code);
+        if (code == 403 || code == 401) navigate("/unauthorize");
       });
   };
 

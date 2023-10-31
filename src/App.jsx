@@ -10,6 +10,7 @@ import Kamar from "./page/Kamar";
 import Fasilitas from "./page/Fasilitas";
 import Season from "./page/Season";
 import Tarif from "./page/Tarif";
+import Unauthorize from "./page/UnauthorizePage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/fasilitas" element={<Fasilitas />} />
         <Route path="/season" element={<Season />} />
         <Route path="/tarif" element={<Tarif />} />
+        <Route path="/unauthorize" element={<Unauthorize />} />
       </Routes>
     </BrowserRouter>
   );
