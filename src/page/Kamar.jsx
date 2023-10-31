@@ -47,8 +47,6 @@ const Kamar = () => {
   const [search, setSearch] = React.useState([]);
   const [primaySearch, setPrimarySearch] = React.useState([]);
 
-  console.log(kamar);
-
   const getKamar = () => {
     axios
       .get("/kamar", { headers: header })
@@ -60,6 +58,7 @@ const Kamar = () => {
       })
       .catch((err) => {
         console.log(err);
+        alert(err.response.data.message);
       });
   };
 
@@ -71,6 +70,7 @@ const Kamar = () => {
       })
       .catch((err) => {
         console.log(err);
+        alert(err.response.data.message);
       });
   };
 
@@ -90,16 +90,16 @@ const Kamar = () => {
 
     const dataKamar = kamar.filter((row) => {
       return (
-        row.f_k_kamar_in_jenis_kamar[0].nama
+        row.f_k_kamar_in_jenis_kamar.nama
           .toLowerCase()
-          .inCludes(search?.trim()?.toLowerCase()) ||
+          .includes(search?.trim()?.toLowerCase()) ||
         row.id_kamar
           ?.toString()
           .toLowerCase()
-          .inCludes(search?.trim()?.toLowerCase()) ||
-        row.f_k_kamar_in_jenis_kamar[0].ukuran_kamar
-          .toLowerCase()
-          .inCludes(search?.trim()?.toLowerCase())
+          .includes(search?.trim()?.toLowerCase()) ||
+        row.f_k_kamar_in_jenis_kamar.ukuran_kamar
+          .toString()
+          .includes(search?.trim()?.toLowerCase())
       );
     });
 
@@ -122,6 +122,7 @@ const Kamar = () => {
       })
       .catch((err) => {
         console.log(err);
+        alert(err.response.data.message);
       });
   };
 
@@ -144,6 +145,7 @@ const Kamar = () => {
       })
       .catch((err) => {
         console.log(err);
+        alert(err.response.data.message);
       });
   };
 
@@ -167,6 +169,7 @@ const Kamar = () => {
       })
       .catch((err) => {
         console.log(err);
+        alert(err.response.data.message);
       });
   };
 
@@ -191,9 +194,9 @@ const Kamar = () => {
             <Button
               onPress={() => onDelete(data.id_kamar)}
               content="delete kamar"
-              color="red"
+              color="danger"
+              variant="light"
               to="#"
-              variant="flat"
             >
               Delete
             </Button>
