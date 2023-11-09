@@ -42,15 +42,10 @@ const Login = () => {
 
         if (role == "admin") {
           navigate("/kamar");
-        }
-
-        if (role == "sm") {
+        } else if (role == "sm") {
           navigate("/season");
-        }
-
-        if (role == "customer") {
-          // navigate("/season");
-          alert("Customer login");
+        } else {
+          navigate("/landing");
         }
       })
       .catch((err) => {
@@ -78,7 +73,7 @@ const Login = () => {
               <form>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    username
+                    Username
                   </label>
                   <div className="relative">
                     <Input
@@ -91,7 +86,7 @@ const Login = () => {
 
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Re-type Password
+                    Password
                   </label>
                   <div className="relative">
                     <Input

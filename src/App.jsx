@@ -11,6 +11,7 @@ import Fasilitas from "./page/Fasilitas";
 import Season from "./page/Season";
 import Tarif from "./page/Tarif";
 import Unauthorize from "./page/UnauthorizePage";
+import { LandingPage } from "./page/LandingPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/season" element={<Season />} />
         <Route path="/tarif" element={<Tarif />} />
         <Route path="/unauthorize" element={<Unauthorize />} />
+        <Route path="/landing" element={<LandingPage />} />
       </Routes>
     </BrowserRouter>
   );

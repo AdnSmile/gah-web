@@ -226,7 +226,13 @@ const Tarif = () => {
               Update
             </Button>
             <Button
-              onPress={() => onDelete(data.id_tarif)}
+              onPress={() =>
+                confirm(
+                  `Apakah anda yakin menghapus season ${data.fk_tarif_in_season.nama}?`
+                )
+                  ? onDelete(data.id_tarif)
+                  : null
+              }
               content="delete kamar"
               color="danger"
               variant="light"
@@ -376,7 +382,7 @@ const Tarif = () => {
                   value={tarifHarga}
                   onValueChange={setTarifHarga}
                   type="number"
-                  label="Nomor Kamar"
+                  label="Tarif"
                 />
               </ModalBody>
 
@@ -387,7 +393,13 @@ const Tarif = () => {
                 <Button
                   color="primary"
                   onPress={() => {
-                    idTarif ? updateTarif() : addTarif();
+                    idTarif
+                      ? confirm("Apakah anda yakin ingin update tarif ini?")
+                        ? updateTarif()
+                        : onOpenChange(false)
+                      : confirm("Apakah anda yakin ingin tambah tarif ini?")
+                      ? addTarif()
+                      : onOpenChange(false);
                   }}
                 >
                   Simpan

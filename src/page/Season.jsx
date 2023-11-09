@@ -14,7 +14,8 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Tooltip,
+  RadioGroup,
+  Radio,
   Modal,
   ModalContent,
   ModalHeader,
@@ -33,6 +34,11 @@ const titleTable = [
   { name: "Tanggal Mulai", uid: "start_season" },
   { name: "Tanggal Selesai", uid: "end_season" },
   { name: "Actions", uid: "actions" },
+];
+
+const selectionJenis = [
+  { id: 1, name: "high" },
+  { id: 2, name: "promo" },
 ];
 
 const Season = () => {
@@ -160,14 +166,6 @@ const Season = () => {
       });
   };
 
-  const formatDate = (dateTimeString) => {
-    const date = new Date(dateTimeString);
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
-
   const buildTable = useCallback((data, columnKey) => {
     const row = data[columnKey];
 
@@ -187,7 +185,11 @@ const Season = () => {
               Update
             </Button>
             <Button
-              onPress={() => onDelete(data.id_season)}
+              onPress={() =>
+                confirm(`Apakah anda yakin menghapus season ${data.nama}?`)
+                  ? onDelete(data.id_season)
+                  : null
+              }
               content="delete season"
               to="#"
               color="danger"
@@ -314,12 +316,22 @@ const Season = () => {
                   type="text"
                 />
 
-                <h1 className="ml-2">Jenis Season</h1>
+                {/* <h1 className="ml-2">Jenis Season</h1>
                 <Input
                   value={jenisSeason}
                   onValueChange={setJenisSeason}
                   type="text"
-                />
+                /> */}
+                {/* 
+                <Select
+                  items={selectionJenis || []}
+                  type="text"
+                  label="Jenis Season"
+                  selectedKeys={jenisSeason}
+                  onSelectionChange={setJenisSeason}
+                >
+                  {(item) => <SelectItem key={item.id}>{item.name}</SelectItem>}
+                </Select> */}
 
                 <h1 className="ml-2">Tanggal Mulai</h1>
                 <Input
@@ -335,6 +347,16 @@ const Season = () => {
                   onValueChange={setEndSeason}
                   type="date"
                 />
+
+                <h1 className="ml-2">Jenis Season</h1>
+                <RadioGroup
+                  color="secondary"
+                  onValueChange={setJenisSeason}
+                  defaultValue={jenisSeason}
+                >
+                  <Radio value="high">High</Radio>
+                  <Radio value="promo">Promo</Radio>
+                </RadioGroup>
               </ModalBody>
 
               <ModalFooter>
@@ -344,7 +366,13 @@ const Season = () => {
                 <Button
                   color="primary"
                   onPress={() => {
-                    idSeason ? updateSeason() : addSeason();
+                    idSeason
+                      ? confirm("Apakah anda yakin ingin update season ini?")
+                        ? updateSeason()
+                        : onOpenChange(false)
+                      : confirm("Apakah anda yakin ingin menambah season ini?")
+                      ? addSeason()
+                      : onOpenChange(false);
                   }}
                 >
                   Simpan

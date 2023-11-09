@@ -181,7 +181,13 @@ const Fasilitas = () => {
               Update
             </Button>
             <Button
-              onPress={() => onDelete(data.id_layanan)}
+              onPress={() =>
+                confirm(
+                  `Apakah anda yakin menghapus fasilitas ${data.nama_layanan}?`
+                )
+                  ? onDelete(data.id_layanan)
+                  : null
+              }
               content="delete fasilitas"
               to="#"
               color="danger"
@@ -326,7 +332,15 @@ const Fasilitas = () => {
                 <Button
                   color="primary"
                   onPress={() => {
-                    idLayanan ? updateFasilitas() : addFasilitas();
+                    idLayanan
+                      ? confirm("Apakah anda yakin ingin update fasilitas ini?")
+                        ? updateFasilitas()
+                        : onOpenChange(false)
+                      : confirm(
+                          "Apakah anda yakin ingin menambah fasilitas ini?"
+                        )
+                      ? addFasilitas()
+                      : onOpenChange(false);
                   }}
                 >
                   Simpan

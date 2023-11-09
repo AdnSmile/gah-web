@@ -202,7 +202,11 @@ const Kamar = () => {
               Update
             </Button>
             <Button
-              onPress={() => onDelete(data.id_kamar)}
+              onPress={() =>
+                confirm(`Apakah anda yakin menghapus kamar ${data.id_kamar}?`)
+                  ? onDelete(data.id_kamar)
+                  : null
+              }
               content="delete kamar"
               color="danger"
               variant="light"
@@ -336,7 +340,7 @@ const Kamar = () => {
                   onValueChange={setNoKamar}
                   type="number"
                   label="Nomor Kamar"
-                  isDisabled={idKamar}
+                  // isDisabled={idKamar}
                 />
               </ModalBody>
 
@@ -347,7 +351,13 @@ const Kamar = () => {
                 <Button
                   color="primary"
                   onPress={() => {
-                    idKamar ? updateKamar() : addKamar();
+                    idKamar
+                      ? confirm("Apakah anda yakin ingin update kamar?")
+                        ? updateKamar()
+                        : onOpenChange(false)
+                      : confirm("Apakah anda yakin ingin menambahkan kamar?")
+                      ? addKamar()
+                      : onOpenChange(false);
                   }}
                 >
                   Simpan
