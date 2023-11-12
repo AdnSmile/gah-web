@@ -316,23 +316,6 @@ const Season = () => {
                   type="text"
                 />
 
-                {/* <h1 className="ml-2">Jenis Season</h1>
-                <Input
-                  value={jenisSeason}
-                  onValueChange={setJenisSeason}
-                  type="text"
-                /> */}
-                {/* 
-                <Select
-                  items={selectionJenis || []}
-                  type="text"
-                  label="Jenis Season"
-                  selectedKeys={jenisSeason}
-                  onSelectionChange={setJenisSeason}
-                >
-                  {(item) => <SelectItem key={item.id}>{item.name}</SelectItem>}
-                </Select> */}
-
                 <h1 className="ml-2">Tanggal Mulai</h1>
                 <Input
                   value={startSeason}

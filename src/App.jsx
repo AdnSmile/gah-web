@@ -12,6 +12,8 @@ import Season from "./page/Season";
 import Tarif from "./page/Tarif";
 import Unauthorize from "./page/UnauthorizePage";
 import { LandingPage } from "./page/LandingPage";
+import Home from "./page/Home.jsx";
+import History from "./page/History.jsx";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
         <Route path="/tarif" element={<Tarif />} />
         <Route path="/unauthorize" element={<Unauthorize />} />
         <Route path="/landing" element={<LandingPage />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/history" element={<History />} />
       </Routes>
     </BrowserRouter>
   );

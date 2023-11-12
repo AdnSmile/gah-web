@@ -35,6 +35,7 @@ const Login = () => {
         alert(res.data.message);
 
         localStorage.setItem("token", res.data.data.token);
+        localStorage.setItem("username", res.data.data.account.username);
 
         console.log(localStorage.getItem("token"));
 
@@ -44,8 +45,8 @@ const Login = () => {
           navigate("/kamar");
         } else if (role == "sm") {
           navigate("/season");
-        } else {
-          navigate("/landing");
+        } else if (role == "customer") {
+          navigate("/home");
         }
       })
       .catch((err) => {
