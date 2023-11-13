@@ -68,6 +68,14 @@ const Customer = () => {
       .then((res) => {
         localStorage.removeItem("token");
         localStorage.removeItem("username");
+        localStorage.removeItem("role");
+        localStorage.removeItem("id");
+        localStorage.removeItem("data_kamar");
+        localStorage.removeItem("jumlah_dewasa");
+        localStorage.removeItem("jumlah_anak");
+        localStorage.removeItem("tanggal_checkin");
+        localStorage.removeItem("tanggal_checkout");
+
         alert(res.data.message);
       });
   };

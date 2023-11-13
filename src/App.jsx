@@ -17,6 +17,7 @@ import History from "./page/History.jsx";
 import Customer from "./page/Customer.jsx";
 import Reservasi from "./page/Reservasi.jsx";
 import Booking from "./page/Booking.jsx";
+import Resume from "./page/Resume.jsx";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/customer" element={<Customer />} />
         <Route path="/reservasi" element={<Home />} />
         <Route path="/booking" element={<Booking />} />
+        <Route path="/resume" element={<Resume />} />
       </Routes>
     </BrowserRouter>
   );

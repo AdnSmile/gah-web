@@ -62,6 +62,11 @@ const Home = () => {
     Authorization: `Bearer ${token}`,
   };
 
+  localStorage.setItem("tanggal_checkin", tglCheckIn);
+  localStorage.setItem("tanggal_checkout", tglCheckOut);
+  localStorage.setItem("jumlah_dewasa", dewasa);
+  localStorage.setItem("jumlah_anak", anak);
+
   const role = localStorage.getItem("role");
 
   const logout = () => {
@@ -96,6 +101,8 @@ const Home = () => {
         console.log(res.data.data);
 
         setKamar(res.data.data);
+
+        localStorage.setItem("data_kamar", JSON.stringify(res.data.data));
       })
       .catch((err) => {
         console.log(dewasa);
@@ -146,7 +153,7 @@ const Home = () => {
             </Button>
             <Button
               onPress={() => {
-                localStorage.setItem("harga_terbaru", data.harga_terbaru);
+                localStorage.setItem("harga_terbaru", data.harga_terbaru); // hapus
                 navigate("/booking");
               }}
               content="Booking"
@@ -278,14 +285,14 @@ const Home = () => {
               value={anak}
               onValueChange={setAnak}
             />
-            <Input
+            {/* <Input
               className="max-w-2xl"
               label="Jumlah Kamar"
               labelPlacement="outside"
               type="number"
               value={jumlahKamar}
               onValueChange={setJumlahKamar}
-            />
+            /> */}
             <Button
               onPress={() => {
                 checkKamar();
