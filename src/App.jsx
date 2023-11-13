@@ -14,6 +14,9 @@ import Unauthorize from "./page/UnauthorizePage";
 import { LandingPage } from "./page/LandingPage";
 import Home from "./page/Home.jsx";
 import History from "./page/History.jsx";
+import Customer from "./page/Customer.jsx";
+import Reservasi from "./page/Reservasi.jsx";
+import Booking from "./page/Booking.jsx";
 
 function App() {
   return (
@@ -30,6 +33,9 @@ function App() {
         <Route path="/landing" element={<LandingPage />} />
         <Route path="/home" element={<Home />} />
         <Route path="/history" element={<History />} />
+        <Route path="/customer" element={<Customer />} />
+        <Route path="/reservasi" element={<Home />} />
+        <Route path="/booking" element={<Booking />} />
       </Routes>
     </BrowserRouter>
   );

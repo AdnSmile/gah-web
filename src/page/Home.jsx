@@ -43,6 +43,8 @@ const Home = () => {
   const [dewasa, setDewasa] = useState(0);
   const [anak, setAnak] = useState(0);
   const [kamar, setKamar] = useState([]);
+  const [jumlahKamar, setJumlahKamar] = useState(0);
+  const navigate = useNavigate();
 
   const [idJenisKamar, setIdJenisKamar] = useState("");
   const [hargaBaru, setHargaBaru] = useState(0);
@@ -59,6 +61,8 @@ const Home = () => {
   const header = {
     Authorization: `Bearer ${token}`,
   };
+
+  const role = localStorage.getItem("role");
 
   const logout = () => {
     axios
@@ -140,6 +144,18 @@ const Home = () => {
             >
               Show
             </Button>
+            <Button
+              onPress={() => {
+                localStorage.setItem("harga_terbaru", data.harga_terbaru);
+                navigate("/booking");
+              }}
+              content="Booking"
+              color="primary"
+              to="/booking"
+              variant="flat"
+            >
+              Booking
+            </Button>
           </div>
         );
 
@@ -165,14 +181,51 @@ const Home = () => {
             <p className="font-bold text-inherit">Grand Atma Hotel</p>
           </NavbarBrand>
           <NavbarContent className="sm:flex gap-18" justify="center">
-            <NavbarItem isActive>
-              <NavLink color="foreground" to="/home">
-                Home
-              </NavLink>
-            </NavbarItem>
-            <NavbarItem>
-              <NavLink to="/history">History</NavLink>
-            </NavbarItem>
+            {role == "customer" && (
+              <NavbarItem isActive>
+                <NavLink color="foreground" to="/home">
+                  Home
+                </NavLink>
+              </NavbarItem>
+            )}
+            {role == "sm" && (
+              <NavbarItem>
+                <NavLink color="foreground" to="/customer">
+                  Customer
+                </NavLink>
+              </NavbarItem>
+            )}
+            {role == "sm" && (
+              <NavbarItem isActive>
+                <NavLink color="foreground" to="/home">
+                  Reservasi
+                </NavLink>
+              </NavbarItem>
+            )}
+            {role == "sm" && (
+              <NavbarItem>
+                <NavLink color="foreground" to="/season">
+                  Season
+                </NavLink>
+              </NavbarItem>
+            )}
+            {role == "sm" && (
+              <NavbarItem>
+                <NavLink color="foreground" to="/fasilitas">
+                  Fasilitas
+                </NavLink>
+              </NavbarItem>
+            )}
+            {role == "sm" && (
+              <NavbarItem>
+                <NavLink to="/tarif">Tarif</NavLink>
+              </NavbarItem>
+            )}
+            {role == "customer" && (
+              <NavbarItem>
+                <NavLink to="/history">History</NavLink>
+              </NavbarItem>
+            )}
           </NavbarContent>
           <NavbarContent justify="end">
             <NavbarItem>
@@ -224,6 +277,14 @@ const Home = () => {
               type="number"
               value={anak}
               onValueChange={setAnak}
+            />
+            <Input
+              className="max-w-2xl"
+              label="Jumlah Kamar"
+              labelPlacement="outside"
+              type="number"
+              value={jumlahKamar}
+              onValueChange={setJumlahKamar}
             />
             <Button
               onPress={() => {

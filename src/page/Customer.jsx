@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+
 import {
   Navbar,
   NavbarBrand,
@@ -27,19 +28,23 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const titleTable = [
-  { name: "Fasilitas", uid: "nama_layanan" },
-  { name: "Satuan", uid: "satuan" },
-  { name: "Tarif", uid: "tarif_layanan" },
-  { name: "Actions", uid: "actions" },
+  { name: "Nama", uid: "nama" },
+  { name: "Email", uid: "email" },
+  { name: "Alamat", uid: "alamat" },
+  { name: "Institusi", uid: "institusi" },
+  { name: "Nomor Telpon", uid: "no_telpon" },
+  { name: "Nomor Identitas", uid: "no_identitas" },
 ];
 
-const Fasilitas = () => {
+const Customer = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [layanan, setLayanan] = React.useState([]);
-  const [namaLayanan, setNamaLayanan] = React.useState("");
-  const [satuan, setSatuan] = React.useState("");
-  const [tarif, setTarif] = React.useState("");
-  const [idLayanan, setIdLayanan] = React.useState("");
+  const [customer, setCustomer] = useState([]);
+  const [nama, setNama] = useState("");
+  const [email, setEmail] = useState("");
+  const [alamat, setAlamat] = useState("");
+  const [institusi, setInstitusi] = useState("");
+  const [noTelp, setNoTelp] = useState("");
+  const [identitas, setIdentitas] = useState("");
   const [search, setSearch] = React.useState([]);
   const [primaySearch, setPrimarySearch] = React.useState([]);
   const navigate = useNavigate();
@@ -67,20 +72,16 @@ const Fasilitas = () => {
       });
   };
 
-  const getFasilitas = () => {
+  const getCustomer = () => {
     axios
-      .get("/fasilitas", { headers: header })
+      .get("/customer", { headers: header })
       .then((res) => {
         console.log(res.data.data);
-
-        setLayanan(res.data.data);
+        setCustomer(res.data.data);
         setPrimarySearch(res.data.data);
       })
       .catch((err) => {
         console.log(err);
-        // console.log(header.Authorization);
-        // localStorage.removeItem("token");
-        // navigate("/login");
         const code = err.response.status;
         console.log(code);
         if (code == 403 || code == 401) navigate("/unauthorize");
@@ -88,87 +89,43 @@ const Fasilitas = () => {
   };
 
   useEffect(() => {
-    getFasilitas();
+    getCustomer();
   }, []);
 
   useEffect(() => {
     if (!search) {
-      setPrimarySearch(layanan);
+      setPrimarySearch(customer);
       return;
     }
 
-    const dataFasilitas = layanan.filter((row) => {
+    const dataFasilitas = customer.filter((row) => {
       return (
-        row.nama_layanan
-          .toLowerCase()
-          .includes(search?.trim()?.toLowerCase()) ||
-        row.satuan.toLowerCase().includes(search?.trim()?.toLowerCase()) ||
-        row.tarif_layanan
-          .toString()
-          .toLowerCase()
-          .includes(search?.trim()?.toLowerCase())
+        row.nama.toLowerCase().includes(search?.trim()?.toLowerCase()) ||
+        // row.institusi.toLowerCase().includes(search?.trim()?.toLowerCase()) ||
+        row.email.toLowerCase().includes(search?.trim()?.toLowerCase()) ||
+        row.no_identitas.toLowerCase().includes(search?.trim()?.toLowerCase())
       );
     });
 
     setPrimarySearch(dataFasilitas);
   }, [search]);
 
-  const onUpdate = (layanan) => {
-    setIdLayanan(layanan.id_layanan);
-    setNamaLayanan(layanan.nama_layanan);
-    setSatuan(layanan.satuan);
-    setTarif(layanan.tarif_layanan);
-    onOpenChange(true);
-  };
-
-  const onDelete = (id) => {
-    axios
-      .delete(`/fasilitas/${id}`, { headers: header })
-      .then((res) => {
-        getFasilitas();
-        alert(res.data.message);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert(err.response.data.message);
-      });
-  };
-
-  const addFasilitas = () => {
+  const addCustomer = () => {
     axios
       .post(
-        "/fasilitas",
+        "/customer",
         {
-          nama_layanan: namaLayanan,
-          satuan: satuan,
-          tarif_layanan: tarif,
+          nama: nama,
+          email: email,
+          alamat: alamat,
+          institusi: institusi,
+          no_telpon: noTelp,
+          no_identitas: identitas,
         },
         { headers: header }
       )
       .then((res) => {
-        getFasilitas();
-        onOpenChange(false);
-        alert(res.data.message);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert(err.response.data.message);
-      });
-  };
-
-  const updateFasilitas = () => {
-    axios
-      .put(
-        `/fasilitas/${idLayanan}`,
-        {
-          nama_layanan: namaLayanan,
-          satuan: satuan,
-          tarif_layanan: tarif,
-        },
-        { headers: header }
-      )
-      .then((res) => {
-        getFasilitas();
+        getCustomer();
         onOpenChange(false);
         alert(res.data.message);
       })
@@ -184,35 +141,9 @@ const Fasilitas = () => {
     console.log(row);
 
     switch (columnKey) {
-      case "actions":
-        return (
-          <div className="relative flex items-center gap-2">
-            <Button
-              onPress={() => onUpdate(data)}
-              content="update fasilitas"
-              color="primary"
-              to="#"
-              variant="flat"
-            >
-              Update
-            </Button>
-            <Button
-              onPress={() =>
-                confirm(
-                  `Apakah anda yakin menghapus fasilitas ${data.nama_layanan}?`
-                )
-                  ? onDelete(data.id_layanan)
-                  : null
-              }
-              content="delete fasilitas"
-              to="#"
-              color="danger"
-              variant="light"
-            >
-              Delete
-            </Button>
-          </div>
-        );
+      case "institusi":
+        if (data.institusi != null) return data.institusi;
+        else return <div>Non Instansi</div>;
       default:
         return row;
     }
@@ -226,7 +157,7 @@ const Fasilitas = () => {
             <p className="font-bold text-inherit">Grand Atma Hotel</p>
           </NavbarBrand>
           <NavbarContent className="sm:flex gap-18" justify="center">
-            <NavbarItem>
+            <NavbarItem isActive>
               <NavLink color="foreground" to="/customer">
                 Customer
               </NavLink>
@@ -241,7 +172,7 @@ const Fasilitas = () => {
                 Season
               </NavLink>
             </NavbarItem>
-            <NavbarItem isActive>
+            <NavbarItem>
               <NavLink color="foreground" to="/fasilitas">
                 Fasilitas
               </NavLink>
@@ -277,28 +208,25 @@ const Fasilitas = () => {
             />
             <Button
               onPress={() => {
-                setSatuan("");
-                setIdLayanan(null);
-                setNamaLayanan("");
-                setTarif("");
+                setNama("");
+                setEmail("");
+                setAlamat("");
+                setInstitusi("");
+                setIdentitas("");
+                setNoTelp("");
                 onOpen();
               }}
               color="primary"
               className="mb-5 float-right"
             >
-              Tambah Fasilitas
+              Daftar Customer
             </Button>
           </div>
 
           <Table>
             <TableHeader columns={titleTable}>
               {(column) => (
-                <TableColumn
-                  key={column.uid}
-                  align={column.uid === "actions" ? "center" : "start"}
-                >
-                  {column.name}
-                </TableColumn>
+                <TableColumn key={column.uid}>{column.name}</TableColumn>
               )}
             </TableHeader>
             <TableBody
@@ -306,7 +234,7 @@ const Fasilitas = () => {
               emptyContent={"No rows to display."}
             >
               {(item) => (
-                <TableRow key={item.id_layanan}>
+                <TableRow key={item.id_customer}>
                   {(columnKey) => (
                     <TableCell>{buildTable(item, columnKey)}</TableCell>
                   )}
@@ -322,32 +250,34 @@ const Fasilitas = () => {
           {(onclose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Fasilitas
+                Isi Data Customer
               </ModalHeader>
 
               <ModalBody>
-                <h1 className="ml-2">Nama Layanan</h1>
+                <h1 className="ml-2">Nama</h1>
+                <Input value={nama} onValueChange={setNama} type="text" />
+
+                <h1 className="ml-2">Email</h1>
+                <Input value={email} onValueChange={setEmail} type="text" />
+
+                <h1 className="ml-2">Alamat</h1>
+                <Input value={alamat} onValueChange={setAlamat} type="text" />
+
+                <h1 className="ml-2">Institusi</h1>
                 <Input
-                  value={namaLayanan}
-                  onValueChange={setNamaLayanan}
+                  value={institusi}
+                  onValueChange={setInstitusi}
                   type="text"
-                  label="Nama Layanan"
                 />
 
-                <h1 className="ml-2">Satuan</h1>
-                <Input
-                  value={satuan}
-                  onValueChange={setSatuan}
-                  type="text"
-                  label="Satuan"
-                />
+                <h1 className="ml-2">Nomor Telpon</h1>
+                <Input value={noTelp} onValueChange={setNoTelp} type="text" />
 
-                <h1 className="ml-2">Tarif Layanan</h1>
+                <h1 className="ml-2">Nomor Identitas</h1>
                 <Input
-                  value={tarif}
-                  onValueChange={setTarif}
-                  type="number"
-                  label="Tarif Layanan"
+                  value={identitas}
+                  onValueChange={setIdentitas}
+                  type="text"
                 />
               </ModalBody>
 
@@ -358,14 +288,8 @@ const Fasilitas = () => {
                 <Button
                   color="primary"
                   onPress={() => {
-                    idLayanan
-                      ? confirm("Apakah anda yakin ingin update fasilitas ini?")
-                        ? updateFasilitas()
-                        : onOpenChange(false)
-                      : confirm(
-                          "Apakah anda yakin ingin menambah fasilitas ini?"
-                        )
-                      ? addFasilitas()
+                    confirm("Apakah anda yakin ingin menambah customer ini?")
+                      ? addCustomer()
                       : onOpenChange(false);
                   }}
                 >
@@ -380,4 +304,4 @@ const Fasilitas = () => {
   );
 };
 
-export default Fasilitas;
+export default Customer;

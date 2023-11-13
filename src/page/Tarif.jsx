@@ -262,6 +262,16 @@ const Tarif = () => {
           </NavbarBrand>
           <NavbarContent className="sm:flex gap-18" justify="center">
             <NavbarItem>
+              <NavLink color="foreground" to="/customer">
+                Customer
+              </NavLink>
+            </NavbarItem>
+            <NavbarItem>
+              <NavLink color="foreground" to="/reservasi">
+                Reservasi
+              </NavLink>
+            </NavbarItem>
+            <NavbarItem>
               <NavLink color="foreground" to="/season">
                 Season
               </NavLink>

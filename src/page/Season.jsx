@@ -218,6 +218,16 @@ const Season = () => {
             <p className="font-bold text-inherit">Grand Atma Hotel</p>
           </NavbarBrand>
           <NavbarContent className="sm:flex gap-18" justify="center">
+            <NavbarItem>
+              <NavLink color="foreground" to="/customer">
+                Customer
+              </NavLink>
+            </NavbarItem>
+            <NavbarItem>
+              <NavLink color="foreground" to="/reservasi">
+                Reservasi
+              </NavLink>
+            </NavbarItem>
             <NavbarItem isActive>
               <NavLink color="foreground" to="/season">
                 Season
