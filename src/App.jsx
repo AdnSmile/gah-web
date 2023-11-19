@@ -18,6 +18,8 @@ import Customer from "./page/Customer.jsx";
 import Reservasi from "./page/Reservasi.jsx";
 import Booking from "./page/Booking.jsx";
 import Resume from "./page/Resume.jsx";
+import Pembayaran from "./page/Pembayaran.jsx";
+import UangMuka from "./page/UangMuka.jsx";
 
 function App() {
   return (
@@ -38,6 +40,9 @@ function App() {
         <Route path="/reservasi" element={<Home />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/resume" element={<Resume />} />
+        <Route path="/pembayaran" element={<Pembayaran />} />
+        <Route path="/reservasi_history" element={<Reservasi />} />
+        <Route path="/uang_muka" element={<UangMuka />} />
       </Routes>
     </BrowserRouter>
   );

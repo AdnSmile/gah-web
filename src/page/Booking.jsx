@@ -42,6 +42,8 @@ const Booking = () => {
   console.log("Max Kamar : ", maxKamar);
   const role = localStorage.getItem("role");
 
+  // localStorage.removeItem("id_reservasi");
+
   useEffect(() => {
     const dataKamar = JSON.parse(localStorage.getItem("data_kamar"));
     if (dataKamar) {
@@ -73,7 +75,7 @@ const Booking = () => {
 
   const getCustomer = () => {
     axios
-      .get("/customer", { headers: header })
+      .get("/customerGrup", { headers: header })
       .then((res) => {
         console.log(res.data.data);
         setCustomer(res.data.data);
@@ -99,7 +101,7 @@ const Booking = () => {
           jumlah_anak: anak,
           tgl_checkin: tglCheckIn,
           tgl_checkout: tglCheckOut,
-          permintaan_khusus: permintaan,
+          permintaan_khusus: permintaan.toString(),
           kamar: pilihKamar,
           fasilitas: pilihLayanan,
         },
@@ -107,6 +109,8 @@ const Booking = () => {
       )
       .then((res) => {
         console.log(res.data.data);
+        localStorage.setItem("id_reservasi", res.data.data.id_reservasi);
+        console.log("id reservasi: ", localStorage.getItem("id_reservasi"));
         alert(res.data.message);
         navigate("/resume");
       })
@@ -138,6 +142,8 @@ const Booking = () => {
       )
       .then((res) => {
         console.log(res.data.data);
+        localStorage.setItem("id_reservasi", res.data.data.id_reservasi);
+        console.log("id reservasi: ", localStorage.getItem("id_reservasi"));
         alert(res.data.message);
         navigate("/resume");
       })
@@ -147,7 +153,7 @@ const Booking = () => {
       });
   };
 
-  // console.log("Id customer: ", idCustomer);
+  console.log("Id customer: ", idCustomer);
 
   useEffect(() => {
     getFasilitas();
@@ -210,11 +216,9 @@ const Booking = () => {
   };
 
   return (
-    <div className="">
-      <Card className="max-w-[900px]">
-        <CardHeader>
-          <h1>Booking</h1>
-        </CardHeader>
+    <div className="flex justify-center items-center gap-4">
+      <Card className="">
+        <CardHeader className="flex flex-col gap-1 text-xl">Booking</CardHeader>
         <CardBody className="gap-4">
           {role == "sm" && (
             <div>

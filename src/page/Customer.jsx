@@ -66,16 +66,6 @@ const Customer = () => {
         { headers: header }
       )
       .then((res) => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
-        localStorage.removeItem("id");
-        localStorage.removeItem("data_kamar");
-        localStorage.removeItem("jumlah_dewasa");
-        localStorage.removeItem("jumlah_anak");
-        localStorage.removeItem("tanggal_checkin");
-        localStorage.removeItem("tanggal_checkout");
-
         alert(res.data.message);
       });
   };
@@ -162,9 +152,9 @@ const Customer = () => {
       <div>
         <Navbar position="static">
           <NavbarBrand>
-            <p className="font-bold text-inherit">Grand Atma Hotel</p>
+            <p className="me-10 font-bold text-inherit">Grand Atma Hotel</p>
           </NavbarBrand>
-          <NavbarContent className="sm:flex gap-18" justify="center">
+          <NavbarContent className="sm:flex gap-12" justify="center">
             <NavbarItem isActive>
               <NavLink color="foreground" to="/customer">
                 Customer
@@ -172,7 +162,17 @@ const Customer = () => {
             </NavbarItem>
             <NavbarItem>
               <NavLink color="foreground" to="/reservasi">
+                Booking
+              </NavLink>
+            </NavbarItem>
+            <NavbarItem>
+              <NavLink color="foreground" to="/reservasi_history">
                 Reservasi
+              </NavLink>
+            </NavbarItem>
+            <NavbarItem>
+              <NavLink color="foreground" to="/uang_muka">
+                Uang Muka
               </NavLink>
             </NavbarItem>
             <NavbarItem>
@@ -193,6 +193,7 @@ const Customer = () => {
             <NavbarItem>
               <Button
                 onPress={() => {
+                  localStorage.clear();
                   logout();
                 }}
                 as={Link}

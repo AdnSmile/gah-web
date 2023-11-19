@@ -153,7 +153,6 @@ const Home = () => {
             </Button>
             <Button
               onPress={() => {
-                localStorage.setItem("harga_terbaru", data.harga_terbaru); // hapus
                 navigate("/booking");
               }}
               content="Booking"
@@ -185,9 +184,9 @@ const Home = () => {
       <div>
         <Navbar position="static">
           <NavbarBrand>
-            <p className="font-bold text-inherit">Grand Atma Hotel</p>
+            <p className="me-10 font-bold text-inherit">Grand Atma Hotel</p>
           </NavbarBrand>
-          <NavbarContent className="sm:flex gap-18" justify="center">
+          <NavbarContent className="sm:flex gap-12" justify="center">
             {role == "customer" && (
               <NavbarItem isActive>
                 <NavLink color="foreground" to="/home">
@@ -205,7 +204,21 @@ const Home = () => {
             {role == "sm" && (
               <NavbarItem isActive>
                 <NavLink color="foreground" to="/home">
+                  Booking
+                </NavLink>
+              </NavbarItem>
+            )}
+            {role == "sm" && (
+              <NavbarItem>
+                <NavLink color="foreground" to="/reservasi_history">
                   Reservasi
+                </NavLink>
+              </NavbarItem>
+            )}
+            {role == "sm" && (
+              <NavbarItem>
+                <NavLink color="foreground" to="/uang_muka">
+                  Uang Muka
                 </NavLink>
               </NavbarItem>
             )}

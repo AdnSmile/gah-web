@@ -213,11 +213,11 @@ const Season = () => {
   return (
     <>
       <div>
-        <Navbar position="static">
+        <Navbar position="sticky">
           <NavbarBrand>
-            <p className="font-bold text-inherit">Grand Atma Hotel</p>
+            <p className="me-10 font-bold text-inherit">Grand Atma Hotel</p>
           </NavbarBrand>
-          <NavbarContent className="sm:flex gap-18" justify="center">
+          <NavbarContent className="sm:flex gap-12" justify="center">
             <NavbarItem>
               <NavLink color="foreground" to="/customer">
                 Customer
@@ -225,7 +225,17 @@ const Season = () => {
             </NavbarItem>
             <NavbarItem>
               <NavLink color="foreground" to="/reservasi">
+                Booking
+              </NavLink>
+            </NavbarItem>
+            <NavbarItem>
+              <NavLink color="foreground" to="/reservasi_history">
                 Reservasi
+              </NavLink>
+            </NavbarItem>
+            <NavbarItem>
+              <NavLink color="foreground" to="/uang_muka">
+                Uang Muka
               </NavLink>
             </NavbarItem>
             <NavbarItem isActive>

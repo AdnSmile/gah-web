@@ -52,18 +52,16 @@ const titleTableBatal = [
   { name: "Customer", uid: "customer" },
 ];
 
-const Reservasi = () => {
+const UangMuka = () => {
   const [search, setSearch] = React.useState([]);
+  const [searchBelum, setSearchBelum] = React.useState([]);
   const [primaySearch, setPrimarySearch] = React.useState([]);
-
-  const [searchBatal, setSearchBatal] = React.useState([]);
-  const [primaySearchBatal, setPrimarySearchBatal] = React.useState([]);
-
-  const [reservasi, setReservasi] = useState([]);
-  const [batalReservasi, setBatalReservasi] = useState([]);
-
+  const [primaySearchBelum, setPrimarySearchBelum] = React.useState([]);
   const navigate = useNavigate();
   const [pickReservasi, setPickReservasi] = useState("");
+
+  const [reservasi, setReservasi] = useState([]);
+  const [reservasiBelum, setReservasiBelum] = useState([]);
 
   const token = localStorage.getItem("token");
   const header = {
@@ -103,32 +101,13 @@ const Reservasi = () => {
       });
   };
 
-  const getReservasiBatal = () => {
+  const getReservasiBelum = () => {
     axios
-      .get(`/pembatalanSm`, { headers: header })
+      .get(`/reservasi_bb`, { headers: header })
       .then((res) => {
         console.log(res.data.data);
-        setBatalReservasi(res.data.data);
-        setPrimarySearchBatal(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        const code = err.response.status;
-        console.log(code);
-        if (code === 401) {
-          navigate("/unauthorize");
-        }
-      });
-  };
-
-  const deletebatalReservasi = (idRes) => {
-    axios
-      .delete(`/pembatalanSm/${idRes}`, { headers: header })
-      .then((res) => {
-        console.log(res.data.data);
-        alert(res.data.message);
-        getReservasiBatal();
-        getReservasi();
+        setReservasiBelum(res.data.data);
+        setPrimarySearchBelum(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -142,7 +121,7 @@ const Reservasi = () => {
 
   useEffect(() => {
     getReservasi();
-    getReservasiBatal();
+    getReservasiBelum();
   }, []);
 
   useEffect(() => {
@@ -166,12 +145,12 @@ const Reservasi = () => {
 
       setPrimarySearch(dataReservasi);
     } else {
-      if (!searchBatal) {
-        setPrimarySearchBatal(batalReservasi);
+      if (!searchBelum) {
+        setPrimarySearchBelum(reservasiBelum);
         return;
       }
 
-      const dataReservasi = batalReservasi.filter((row) => {
+      const dataReservasi = reservasiBelum.filter((row) => {
         return (
           row.id_booking
             .toLowerCase()
@@ -223,20 +202,19 @@ const Reservasi = () => {
         return (
           <div className="relative flex items-center gap-2">
             <Button
-              onPress={() =>
-                confirm(
-                  `Apakah anda yakin membatalkan reservasi ${data.id_booking}?`
-                )
-                  ? deletebatalReservasi(data.id_reservasi)
-                  : null
-              }
-              content="delete season"
+              onPress={() => {
+                localStorage.setItem("total_bayar", data.total_pembayaran);
+
+                localStorage.setItem("id_reservasi", data.id_reservasi);
+                navigate("/pembayaran");
+              }}
+              content="Bayar Uang Muka"
               to="#"
-              color="danger"
-              variant="light"
+              variant="flat"
+              color="success"
               size="sm"
             >
-              Batal
+              Bayar
             </Button>
           </div>
         );
@@ -264,12 +242,12 @@ const Reservasi = () => {
                 Booking
               </NavLink>
             </NavbarItem>
-            <NavbarItem isActive>
+            <NavbarItem>
               <NavLink color="foreground" to="/reservasi_history">
                 Reservasi
               </NavLink>
             </NavbarItem>
-            <NavbarItem>
+            <NavbarItem isActive>
               <NavLink color="foreground" to="/uang_muka">
                 Uang Muka
               </NavLink>
@@ -315,19 +293,20 @@ const Reservasi = () => {
               orientation="horizontal"
             >
               <Radio value="all">Semua</Radio>
-              <Radio value="batal">Bisa dibatalkan</Radio>
+              <Radio value="belum">Belum membayar</Radio>
             </RadioGroup>
 
             <Input
               className="max-w-2xl"
               placeholder="Search"
-              value={pickReservasi === "all" ? search : searchBatal}
+              value={pickReservasi === "all" ? search : searchBelum}
               onValueChange={
-                pickReservasi === "all" ? setSearch : setSearchBatal
+                pickReservasi === "all" ? setSearch : setSearchBelum
               }
             />
             <Button
               onPress={() => {
+                // onOpen();
                 navigate("/reservasi");
               }}
               color="primary"
@@ -339,7 +318,7 @@ const Reservasi = () => {
 
           <Table>
             <TableHeader
-              columns={pickReservasi === "batal" ? titleTable : titleTableBatal}
+              columns={pickReservasi === "belum" ? titleTable : titleTableBatal}
             >
               {(column) => (
                 <TableColumn key={column.uid}>{column.name}</TableColumn>
@@ -348,7 +327,7 @@ const Reservasi = () => {
 
             <TableBody
               items={
-                pickReservasi === "all" ? primaySearch : primaySearchBatal || []
+                pickReservasi === "all" ? primaySearch : primaySearchBelum || []
               }
               emptyContent={"No rows to display."}
             >
@@ -367,4 +346,4 @@ const Reservasi = () => {
   );
 };
 
-export default Reservasi;
+export default UangMuka;

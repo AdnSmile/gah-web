@@ -11,7 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  console.log(localStorage.getItem("token"));
+  // console.log(localStorage.getItem("token"));
 
   const onLogin = () => {
     const config = {
@@ -47,7 +47,7 @@ const Login = () => {
         if (role == "admin") {
           navigate("/kamar");
         } else if (role == "sm") {
-          navigate("/season");
+          navigate("/reservasi_history");
         } else if (role == "customer") {
           navigate("/home");
         }
