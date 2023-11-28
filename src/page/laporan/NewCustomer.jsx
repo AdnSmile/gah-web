@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import {
   Navbar,
@@ -6,7 +6,6 @@ import {
   NavbarContent,
   NavbarItem,
   Button,
-  Input,
   Table,
   TableHeader,
   Select,
@@ -15,8 +14,6 @@ import {
   TableRow,
   SelectItem,
   TableCell,
-  RadioGroup,
-  Radio,
 } from "@nextui-org/react";
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
@@ -36,9 +33,7 @@ const dataTahun = [
 
 const NewCustomer = () => {
   const [dataCustomer, setDataCustomer] = useState([]);
-  const [total, setTotal] = useState(0);
   const [tahun, setTahun] = useState(0);
-  const [tanggal, setTanggal] = useState("");
   const navigate = useNavigate();
 
   const currentDate = new Date();
@@ -82,10 +77,6 @@ const NewCustomer = () => {
         }
       });
   };
-
-  // useEffect(() => {
-  //   getDataCustomer(tahun);
-  // }, []);
 
   const formatDate = (inputDate) => {
     const date = new Date(inputDate);
@@ -215,7 +206,7 @@ const NewCustomer = () => {
               0
             )}
           </div>
-          <div>Dicetak Tanggal: {formatDate(dateString)}</div>
+          <div className=" pt-4">Dicetak Tanggal: {formatDate(dateString)}</div>
         </div>
       </div>
     </>
