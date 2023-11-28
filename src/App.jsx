@@ -20,6 +20,13 @@ import Booking from "./page/Booking.jsx";
 import Resume from "./page/Resume.jsx";
 import Pembayaran from "./page/Pembayaran.jsx";
 import UangMuka from "./page/UangMuka.jsx";
+import Pemesanan from "./page/Pemesanan.jsx";
+import CheckIn from "./page/CheckIn.jsx";
+import CheckOut from "./page/Checkout.jsx";
+import NewCustomer from "./page/laporan/NewCustomer.jsx";
+import Pendapatan from "./page/laporan/Pendapatan.jsx";
+import JumlahTamu from "./page/laporan/JumlahTamu.jsx";
+import PemesanTerbanyak from "./page/laporan/PemesanTerbanyak.jsx";
 
 function App() {
   return (
@@ -43,6 +50,20 @@ function App() {
         <Route path="/pembayaran" element={<Pembayaran />} />
         <Route path="/reservasi_history" element={<Reservasi />} />
         <Route path="/uang_muka" element={<UangMuka />} />
+        <Route path="/checkin_list" element={<CheckIn />} />
+        <Route path="/checkout" element={<CheckOut />} />
+
+        {/* laporan */}
+        <Route path="/laporan/customer_baru" element={<NewCustomer />} />
+        <Route path="/laporan/pendapatan" element={<Pendapatan />} />
+        <Route path="/laporan/jumlah_tamu" element={<JumlahTamu />} />
+        <Route
+          path="/laporan/pemesan_terbanyak"
+          element={<PemesanTerbanyak />}
+        />
+
+        {/* Front Office */}
+        <Route path="/pemesanan" element={<Pemesanan />} />
       </Routes>
     </BrowserRouter>
   );

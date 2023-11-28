@@ -50,6 +50,10 @@ const Login = () => {
           navigate("/reservasi_history");
         } else if (role == "customer") {
           navigate("/home");
+        } else if (role == "fo") {
+          navigate("/pemesanan");
+        } else if (role == "gm" || role == "owner") {
+          navigate("/laporan/customer_baru");
         }
       })
       .catch((err) => {

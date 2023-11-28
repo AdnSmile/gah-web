@@ -61,8 +61,7 @@ const Fasilitas = () => {
         { headers: header }
       )
       .then((res) => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
+        localStorage.clear();
         alert(res.data.message);
       });
   };

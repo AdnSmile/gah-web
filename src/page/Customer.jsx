@@ -66,6 +66,7 @@ const Customer = () => {
         { headers: header }
       )
       .then((res) => {
+        localStorage.clear();
         alert(res.data.message);
       });
   };

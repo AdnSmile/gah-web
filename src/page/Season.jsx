@@ -256,7 +256,7 @@ const Season = () => {
             <NavbarItem>
               <Button
                 onPress={() => {
-                  localStorage.removeItem("token");
+                  localStorage.clear();
                 }}
                 as={Link}
                 color="primary"

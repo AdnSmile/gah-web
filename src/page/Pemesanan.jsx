@@ -6,7 +6,6 @@ import {
   NavbarContent,
   NavbarItem,
   Button,
-  Select,
   Input,
   Table,
   TableHeader,
@@ -16,14 +15,6 @@ import {
   TableCell,
   RadioGroup,
   Radio,
-  Tooltip,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-  SelectItem,
 } from "@nextui-org/react";
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
@@ -38,10 +29,9 @@ const titleTable = [
   { name: "Tanggal Reservasi", uid: "tgl_reservasi" },
   { name: "Subtotal", uid: "total_pembayaran" },
   { name: "Customer", uid: "customer" },
-  { name: "Actions", uid: "actions" },
 ];
 
-const titleTableBatal = [
+const titleTableCheckin = [
   { name: "ID Booking", uid: "id_booking" },
   { name: "Status", uid: "status" },
   { name: "Permintaan", uid: "permintaan_khusus" },
@@ -50,18 +40,17 @@ const titleTableBatal = [
   { name: "Tanggal Reservasi", uid: "tgl_reservasi" },
   { name: "Subtotal", uid: "total_pembayaran" },
   { name: "Customer", uid: "customer" },
+  { name: "Actions", uid: "actions" },
 ];
 
-const Reservasi = () => {
-  const [search, setSearch] = React.useState([]);
-  const [primaySearch, setPrimarySearch] = React.useState([]);
+const Pemesanan = () => {
+  const [search, setSearch] = useState([]);
+  const [searchCheckin, setSearchCheckin] = useState([]);
 
-  const [searchBatal, setSearchBatal] = React.useState([]);
-  const [primaySearchBatal, setPrimarySearchBatal] = React.useState([]);
-
+  const [primaySearch, setPrimarySearch] = useState([]);
+  const [primaySearchCheckin, setPrimarySearchCheckin] = useState([]);
   const [reservasi, setReservasi] = useState([]);
-  const [batalReservasi, setBatalReservasi] = useState([]);
-
+  const [pemesanan, setPemesanan] = useState([]);
   const navigate = useNavigate();
   const [pickReservasi, setPickReservasi] = useState("all");
 
@@ -69,6 +58,7 @@ const Reservasi = () => {
   const header = {
     Authorization: `Bearer ${token}`,
   };
+
   console.log(pickReservasi);
 
   const logout = () => {
@@ -86,9 +76,36 @@ const Reservasi = () => {
       });
   };
 
+  const checkin = (idReservasi) => {
+    console.log(idReservasi);
+
+    axios
+      .put(
+        `/checkin/${idReservasi}`,
+        { uang_deposit: 300000 },
+        { headers: header }
+      )
+      .then((res) => {
+        console.log(res.data);
+        alert(res.data.message);
+        getPemesananCheckin();
+      })
+      .catch((err) => {
+        console.log(err);
+        const code = err.response.status;
+        console.log(code);
+
+        alert(err.response.data.message);
+
+        // if (code === 401) {
+        //   navigate("/unauthorize");
+        // }
+      });
+  };
+
   const getReservasi = () => {
     axios
-      .get(`/all_reservasi`, { headers: header })
+      .get(`/pemesanan_all`, { headers: header })
       .then((res) => {
         console.log(res.data.data);
         setReservasi(res.data.data);
@@ -104,32 +121,13 @@ const Reservasi = () => {
       });
   };
 
-  const getReservasiBatal = () => {
+  const getPemesananCheckin = () => {
     axios
-      .get(`/pembatalanSm`, { headers: header })
+      .get(`/pemesanan_bisa_checkin`, { headers: header })
       .then((res) => {
         console.log(res.data.data);
-        setBatalReservasi(res.data.data);
-        setPrimarySearchBatal(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        const code = err.response.status;
-        console.log(code);
-        if (code === 401) {
-          navigate("/unauthorize");
-        }
-      });
-  };
-
-  const deletebatalReservasi = (idRes) => {
-    axios
-      .delete(`/pembatalanSm/${idRes}`, { headers: header })
-      .then((res) => {
-        console.log(res.data.data);
-        alert(res.data.message);
-        getReservasiBatal();
-        getReservasi();
+        setPemesanan(res.data.data);
+        setPrimarySearchCheckin(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -143,7 +141,7 @@ const Reservasi = () => {
 
   useEffect(() => {
     getReservasi();
-    getReservasiBatal();
+    getPemesananCheckin();
   }, []);
 
   useEffect(() => {
@@ -166,25 +164,28 @@ const Reservasi = () => {
       });
 
       setPrimarySearch(dataReservasi);
-    } else {
-      if (!searchBatal) {
-        setPrimarySearchBatal(batalReservasi);
+    } else;
+    {
+      if (!searchCheckin) {
+        setPrimarySearchCheckin(pemesanan);
         return;
       }
 
-      const dataReservasi = batalReservasi.filter((row) => {
+      const dataReservasi = pemesanan.filter((row) => {
         return (
           row.id_booking
             .toLowerCase()
-            .includes(search?.trim()?.toLowerCase()) ||
-          row.status.toLowerCase().includes(search?.trim()?.toLowerCase()) ||
+            .includes(searchCheckin?.trim()?.toLowerCase()) ||
+          row.status
+            .toLowerCase()
+            .includes(searchCheckin?.trim()?.toLowerCase()) ||
           row.f_k_reservasi_in_customer.nama
             .toLowerCase()
-            .includes(search?.trim()?.toLowerCase())
+            .includes(searchCheckin?.trim()?.toLowerCase())
         );
       });
 
-      setPrimarySearchBatal(dataReservasi);
+      setPrimarySearchCheckin(dataReservasi);
     }
   }, [search]);
 
@@ -224,20 +225,21 @@ const Reservasi = () => {
         return (
           <div className="relative flex items-center gap-2">
             <Button
-              onPress={() =>
+              onPress={() => {
+                // console.log(data.id_reservasi);
                 confirm(
-                  `Apakah anda yakin membatalkan reservasi ${data.id_booking}?`
+                  `Sebelum Check In, Pastikan Menerima Deposit Rp 300.000. \nYakin ingin Check In pemesanan ${data.f_k_reservasi_in_customer.nama} dengan ID Booking ${data.id_booking}?`
                 )
-                  ? deletebatalReservasi(data.id_reservasi)
-                  : null
-              }
-              content="delete season"
+                  ? checkin(data.id_reservasi)
+                  : null;
+              }}
+              content="Check In Pemesanan"
               to="#"
-              color="danger"
-              variant="light"
+              variant="flat"
+              color="success"
               size="sm"
             >
-              Batal
+              Chek In
             </Button>
           </div>
         );
@@ -255,38 +257,15 @@ const Reservasi = () => {
             <p className="me-10 font-bold text-inherit">Grand Atma Hotel</p>
           </NavbarBrand>
           <NavbarContent className="sm:flex gap-12" justify="center">
-            <NavbarItem>
-              <NavLink color="foreground" to="/customer">
-                Customer
-              </NavLink>
-            </NavbarItem>
-            <NavbarItem>
-              <NavLink color="foreground" to="/reservasi">
-                Booking
-              </NavLink>
-            </NavbarItem>
             <NavbarItem isActive>
-              <NavLink color="foreground" to="/reservasi_history">
-                Reservasi
+              <NavLink color="foreground" to="/pemesanan">
+                Pemesanan
               </NavLink>
             </NavbarItem>
             <NavbarItem>
-              <NavLink color="foreground" to="/uang_muka">
-                Uang Muka
+              <NavLink color="foreground" to="/checkin_list">
+                Check In
               </NavLink>
-            </NavbarItem>
-            <NavbarItem>
-              <NavLink color="foreground" to="/season">
-                Season
-              </NavLink>
-            </NavbarItem>
-            <NavbarItem>
-              <NavLink color="foreground" to="/fasilitas">
-                Fasilitas
-              </NavLink>
-            </NavbarItem>
-            <NavbarItem>
-              <NavLink to="/tarif">Tarif</NavLink>
             </NavbarItem>
           </NavbarContent>
           <NavbarContent justify="end">
@@ -316,31 +295,32 @@ const Reservasi = () => {
               orientation="horizontal"
             >
               <Radio value="all">Semua</Radio>
-              <Radio value="batal">Bisa dibatalkan</Radio>
+              <Radio value="checkin">Bisa Check In</Radio>
             </RadioGroup>
 
             <Input
               className="max-w-2xl"
               placeholder="Search"
-              value={pickReservasi === "all" ? search : searchBatal}
+              value={pickReservasi === "all" ? search : searchCheckin}
               onValueChange={
-                pickReservasi === "all" ? setSearch : setSearchBatal
+                pickReservasi === "all" ? setSearch : setSearchCheckin
               }
             />
             <Button
               onPress={() => {
-                navigate("/reservasi");
+                // onOpen();
+                // navigate("/reservasi");
               }}
               color="primary"
               className="mb-5 float-right"
             >
-              Tambah Reservasi
+              Cari
             </Button>
           </div>
 
           <Table>
             <TableHeader
-              columns={pickReservasi === "batal" ? titleTable : titleTableBatal}
+              columns={pickReservasi === "all" ? titleTable : titleTableCheckin}
             >
               {(column) => (
                 <TableColumn key={column.uid}>{column.name}</TableColumn>
@@ -349,7 +329,9 @@ const Reservasi = () => {
 
             <TableBody
               items={
-                pickReservasi === "all" ? primaySearch : primaySearchBatal || []
+                pickReservasi === "all"
+                  ? primaySearch
+                  : primaySearchCheckin || []
               }
               emptyContent={"No rows to display."}
             >
@@ -368,4 +350,4 @@ const Reservasi = () => {
   );
 };
 
-export default Reservasi;
+export default Pemesanan;

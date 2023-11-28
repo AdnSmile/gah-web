@@ -58,7 +58,7 @@ const UangMuka = () => {
   const [primaySearch, setPrimarySearch] = React.useState([]);
   const [primaySearchBelum, setPrimarySearchBelum] = React.useState([]);
   const navigate = useNavigate();
-  const [pickReservasi, setPickReservasi] = useState("");
+  const [pickReservasi, setPickReservasi] = useState("all");
 
   const [reservasi, setReservasi] = useState([]);
   const [reservasiBelum, setReservasiBelum] = useState([]);
@@ -79,6 +79,7 @@ const UangMuka = () => {
         { headers: header }
       )
       .then((res) => {
+        localStorage.clear();
         alert(res.data.message);
       });
   };
@@ -162,7 +163,7 @@ const UangMuka = () => {
         );
       });
 
-      setPrimarySearch(dataReservasi);
+      setPrimarySearchBelum(dataReservasi);
     }
   }, [search]);
 

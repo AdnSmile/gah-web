@@ -1,39 +1,26 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
   Button,
-  Select,
-  Input,
   Table,
   TableHeader,
   TableColumn,
   TableBody,
   TableRow,
   TableCell,
-  Tooltip,
-  Modal,
   Divider,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Card,
   CardHeader,
   CardBody,
-  useDisclosure,
-  SelectItem,
 } from "@nextui-org/react";
-import { Link, NavLink } from "react-router-dom";
+// import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const titleTableKamar = [
   { name: "Jenis Kamar", uid: "jenis_kamar" },
   { name: "Harga Kamar Permalam", uid: "harga_kamar" },
+  { name: "Jumlah Malam", uid: "jumlah_malam" },
 ];
 
 const titleTableFasilitas = [
@@ -52,6 +39,9 @@ const Resume = () => {
   const [idTransaksi, setIdTransaksi] = useState("");
   const [totalBayar, setTotalBayar] = useState(0);
   localStorage.setItem("total_bayar", totalBayar);
+
+  const tgl_in = localStorage.getItem("tanggal_checkin");
+  const tgl_out = localStorage.getItem("tanggal_checkout");
 
   const token = localStorage.getItem("token");
   const header = {
@@ -97,6 +87,16 @@ const Resume = () => {
     }).format(uang);
   };
 
+  const jumlahMalam = () => {
+    const checkInDate = new Date(tgl_in);
+    const checkOutDate = new Date(tgl_out);
+
+    // Menghitung selisih hari
+    return Math.floor((checkOutDate - checkInDate) / (24 * 60 * 60 * 1000));
+  };
+
+  console.log("jumlah malam: " + jumlahMalam());
+
   const buildTableKamar = useCallback((data, columnKey) => {
     const row = data[columnKey];
 
@@ -107,6 +107,9 @@ const Resume = () => {
         return <div>{data.f_k_transaksi_kamar_in_jenis_kamar.nama}</div>;
       case "harga_kamar":
         return <div>{formatRupiah(data.harga_per_malam)}</div>;
+
+      case "jumlah_malam":
+        return <div>{jumlahMalam()}</div>;
       default:
         return row;
     }
@@ -203,6 +206,19 @@ const Resume = () => {
             }}
           >
             Lakukan Pembayaran Uang Muka
+          </Button>
+
+          <Button
+            onPress={() => {
+              // confirm("Sudah yakin membayar sekarang?")
+              //   ? navigate("/pembayaran")
+              //   : null;
+              navigate("/uang_muka");
+            }}
+            color="danger"
+            variant="light"
+          >
+            Bayar Nanti
           </Button>
         </CardBody>
       </Card>

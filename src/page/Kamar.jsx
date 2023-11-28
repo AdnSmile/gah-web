@@ -248,9 +248,7 @@ const Kamar = () => {
             <NavbarItem>
               <Button
                 onPress={() => {
-                  localStorage.removeItem("token");
-                  localStorage.removeItem("role");
-                  localStorage.removeItem("id_account");
+                  localStorage.clear();
                 }}
                 as={Link}
                 color="primary"

@@ -93,6 +93,9 @@ const Booking = () => {
     console.log("Pilih Fasilitas: ", JSON.stringify(pilihLayanan));
     const idCustomer = [...id];
     console.log("Id Customer : ", idCustomer[0]);
+
+    localStorage.setItem("id_customer", idCustomer[0]);
+
     axios
       .post(
         `/newReservasiSm/${idCustomer[0]}`,
@@ -124,11 +127,12 @@ const Booking = () => {
     console.log("Pilih Kamar: ", JSON.stringify(pilihKamar));
     console.log("Pilih Fasilitas: ", JSON.stringify(pilihLayanan));
     const idCustomer = [...id];
+    console.log(id);
     console.log("Id Customer : ", idCustomer[0]);
 
     axios
       .post(
-        `/newReservasiCus/${idCustomer[0]}`,
+        `/newReservasiCus/${id}`,
         {
           jumlah_dewasa: dewasa,
           jumlah_anak: anak,

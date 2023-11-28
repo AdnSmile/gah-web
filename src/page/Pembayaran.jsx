@@ -35,6 +35,8 @@ const Pembayaran = () => {
   };
 
   const bayarGrup = (idReservasi) => {
+    console.log("bayar Grup");
+
     axios
       .patch(
         `/newReservasiSm/${idReservasi}`,
@@ -57,6 +59,8 @@ const Pembayaran = () => {
   };
 
   const bayarCustomer = (idReservasi) => {
+    console.log("bayar customer");
+
     axios
       .patch(
         `/newReservasiCus/${idReservasi}`,
@@ -69,7 +73,11 @@ const Pembayaran = () => {
         console.log(res.data);
         alert(res.data.message);
         localStorage.removeItem("id_reservasi");
-        navigate("/customer");
+        if (role == "customer") {
+          navigate("/reservasi");
+        } else {
+          navigate("/customer");
+        }
       })
       .catch((err) => {
         alert(err.response.data.message);
