@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import {
   Navbar,
@@ -6,7 +6,6 @@ import {
   NavbarContent,
   NavbarItem,
   Button,
-  Input,
   Table,
   TableHeader,
   TableColumn,
@@ -15,8 +14,6 @@ import {
   TableCell,
   Select,
   SelectItem,
-  RadioGroup,
-  Radio,
 } from "@nextui-org/react";
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
@@ -210,6 +207,16 @@ const PemesanTerbanyak = () => {
           </Table>
 
           <div className=" pt-4">Dicetak Tanggal: {formatDate(dateString)}</div>
+          <div className=" pt-4">
+            <Button
+              onPress={() => {
+                window.print();
+              }}
+              color="primary"
+            >
+              Cetak
+            </Button>
+          </div>
         </div>
       </div>
     </>

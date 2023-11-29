@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import {
   Navbar,
@@ -6,7 +6,6 @@ import {
   NavbarContent,
   NavbarItem,
   Button,
-  Select,
   Input,
   Table,
   TableHeader,
@@ -14,14 +13,11 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Tooltip,
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   useDisclosure,
-  SelectItem,
 } from "@nextui-org/react";
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
@@ -37,16 +33,14 @@ const titleTable = [
 ];
 
 const Home = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpenChange } = useDisclosure();
   const [tglCheckIn, setTglCheckIn] = useState("");
   const [tglCheckOut, setTglCheckOut] = useState("");
   const [dewasa, setDewasa] = useState(0);
   const [anak, setAnak] = useState(0);
   const [kamar, setKamar] = useState([]);
-  const [jumlahKamar, setJumlahKamar] = useState(0);
   const navigate = useNavigate();
 
-  const [idJenisKamar, setIdJenisKamar] = useState("");
   const [hargaBaru, setHargaBaru] = useState(0);
   const [deskripsiKamar, setDeskripsiKamar] = useState("");
   const [namaKamar, setNamaKamar] = useState("");
@@ -111,7 +105,6 @@ const Home = () => {
 
   const detailKamar = (item) => {
     console.log(item);
-    setIdJenisKamar(item.id_jenis_kamar);
     setHargaBaru(item.harga_terbaru);
     setDeskripsiKamar(item.f_k_kamar_in_jenis_kamar.deskripsi);
     setNamaKamar(item.f_k_kamar_in_jenis_kamar.nama);
@@ -348,7 +341,7 @@ const Home = () => {
         scrollBehavior="inside"
       >
         <ModalContent>
-          {(onclose) => (
+          {() => (
             <>
               <ModalHeader className="flex flex-col gap-1">
                 {namaKamar}

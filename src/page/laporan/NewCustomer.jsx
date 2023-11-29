@@ -207,6 +207,16 @@ const NewCustomer = () => {
             )}
           </div>
           <div className=" pt-4">Dicetak Tanggal: {formatDate(dateString)}</div>
+          <div className=" pt-4">
+            <Button
+              onPress={() => {
+                window.print();
+              }}
+              color="primary"
+            >
+              Cetak
+            </Button>
+          </div>
         </div>
       </div>
     </>

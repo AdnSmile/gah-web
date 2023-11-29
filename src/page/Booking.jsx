@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Button,
@@ -9,7 +9,6 @@ import {
   CardBody,
   SelectItem,
 } from "@nextui-org/react";
-import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -27,7 +26,6 @@ const Booking = () => {
     { id_jenis_kamar: "", jumlah: "", harga_per_malam: "" },
   ]);
   const [kamar, setKamar] = React.useState([]);
-  const [maxKamar, setMaxKamar] = React.useState(0);
   const [idJenisKamar, setIdJenisKamar] = React.useState("");
   const navigate = useNavigate();
 
@@ -39,7 +37,6 @@ const Booking = () => {
     Authorization: `Bearer ${token}`,
   };
 
-  console.log("Max Kamar : ", maxKamar);
   const role = localStorage.getItem("role");
 
   // localStorage.removeItem("id_reservasi");

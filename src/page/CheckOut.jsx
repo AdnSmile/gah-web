@@ -1,12 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
   Button,
-  Select,
   Input,
   Table,
   TableHeader,
@@ -14,22 +9,11 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  RadioGroup,
-  Radio,
-  Tooltip,
-  Modal,
-  ModalContent,
-  ModalHeader,
   Divider,
   Card,
   CardHeader,
   CardBody,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-  SelectItem,
 } from "@nextui-org/react";
-import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -151,7 +135,7 @@ const CheckOut = () => {
           // );
           alert(res.data.message);
         }
-
+        window.print();
         navigate("/checkin_list");
       })
       .catch((err) => {
