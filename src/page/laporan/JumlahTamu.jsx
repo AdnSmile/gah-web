@@ -19,6 +19,40 @@ import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+import React from "react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top",
+    },
+    title: {
+      display: true,
+      text: "Chart.js Bar Chart",
+    },
+  },
+};
+
 const titleTable = [
   { name: "No", uid: "nomor" },
   { name: "Jenis Kamar", uid: "jenis_kamar" },
@@ -61,6 +95,29 @@ const JumlahTamu = () => {
   const token = localStorage.getItem("token");
   const header = {
     Authorization: `Bearer ${token}`,
+  };
+
+  const labels = data.map((item) => item.jenis_kamar);
+
+  const dataChart = {
+    labels,
+    datasets: [
+      {
+        label: "Grup",
+        data: data.map((item) => item.grup),
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+      {
+        label: "Personal",
+        data: data.map((item) => item.personal),
+        backgroundColor: "rgba(255,206,86,0.4)",
+      },
+      {
+        label: "Jumlah",
+        data: data.map((item) => item.jumlah),
+        backgroundColor: "rgba(75,192,192,0.4)",
+      },
+    ],
   };
 
   const logout = () => {
@@ -241,6 +298,9 @@ const JumlahTamu = () => {
             >
               Cetak
             </Button>
+          </div>
+          <div className="mb-8 flex justify-center h-[500px]">
+            <Bar data={dataChart} options={options} />
           </div>
         </div>
       </div>
